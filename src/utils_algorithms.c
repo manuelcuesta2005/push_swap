@@ -11,32 +11,32 @@
 /* ************************************************************************** */
 #include "../push_swap.h"
 
-int	min_index(t_stack *stack)
+int	min_value(t_stack *stack)
 {
-	t_node	*content;
-	int		min_index;
+	t_node	*index;
+	int		min_value;
 
 	if (!stack || !stack->head)
 		return (EXIT_FAILURE);
-	content = stack->head;
-	min_index = content->index_stack;
-	while (content->next)
+	index = stack->head;
+	min_value = index->content;
+	while (index->next)
 	{
-		content = content->next;
-		if (content->index_stack < min_index)
-			min_index = content->index_stack;
+		index = index->next;
+		if (index->content < min_value)
+			min_value = index->content;
 	}
-	return (min_index);
+	return (min_value);
 }
 
-int	count_r(t_node *content, int index)
+int	count_r(t_node *content, int value)
 {
 	int	i;
 
 	i = 0;
-	if (!content || content->index_stack < 1)
+	if (!content)
 		return (EXIT_FAILURE);
-	while (content && content->index_stack != index)
+	while (content && content->content != value)
 	{
 		content = content->next;
 		i++;

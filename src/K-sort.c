@@ -18,76 +18,70 @@ int	rot_sort(t_stack *stack, int min_index_stack)
 	int	c;
 
 	(void)min_index_stack;
-	if (!stack || !stack->head)
-		return (EXIT_FAILURE);
 	a = stack->head->content;
 	b = stack->head->next->content;
 	c = stack->head->next->next->content;
-	if (a > b && b > c)
-		return (0);
-	if (a > c && c > b)
+	if (a < b && b < c)
 		return (1);
-	if (b > a && b > c)
+	if (b < c && a > c)
 		return (1);
-	if (c > a && c > b)
-		return (0);
+	if (c < a && a < b)
+		return (1);
 	return (0);
 }
 
-void	simple_sort(t_stack *stack, int length)
+void	simple_sort(t_stack *stack_a, int length)
 {
-	int	min_s_index;
+	int	min_value_stack;
 	int	r;
 
-	if (check_order(stack))
+	if (check_order(stack_a))
 		return ;
-	min_s_index = min_index(stack);
-	r = count_r(stack->head, min_s_index);
-	if (rot_sort(stack, min_s_index))
+	min_value_stack = min_value(stack_a);
+	r = count_r(stack_a->head, min_value_stack);
+	if (rot_sort(stack_a, min_value_stack))
 	{
 		if (r < length - r)
-			rotate(stack, 'a');
+			rotate(stack_a, 'a');
 		else
-			reverse_rotate(stack, 'a');
+			reverse_rotate(stack_a, 'a');
 	}
 	else
 	{
-		swap(stack, 'a');
-		if (check_order(stack))
+		swap(stack_a, 'a');
+		if (check_order(stack_a))
 			return ;
 		if (r < length - r)
-			rotate(stack, 'a');
+			rotate(stack_a, 'a');
 		else
-			reverse_rotate(stack, 'a');
+			reverse_rotate(stack_a, 'a');
 	}
 }
 
 void	insertion_sort(t_stack *stack_a, t_stack *stack_b, int length)
 {
-	int	minimun_index;
+	int	minimun_value;
 	int	i;
 	int	n;
 
 	i = 0;
 	n = length;
-	while (i < n - 3)
+	while (i < n - 3 && stack_a->size > 1)
 	{
-		minimun_index = min_index(stack_a);
-		if (count_r(stack_a->head, minimun_index) <= n - minimun_index
-			- count_r(stack_a->head, minimun_index))
-			while (stack_a->head->index_stack != minimun_index)
+		minimun_value = min_value(stack_a);
+		if (count_r(stack_a->head, minimun_value) <= n - minimun_value
+			- count_r(stack_a->head, minimun_value))
+			while (stack_a->head->content != minimun_value)
 				rotate(stack_a, 'a');
 		else
-			while (stack_a->head->index_stack != minimun_index)
+			while (stack_a->head->content != minimun_value)
 				reverse_rotate(stack_a, 'a');
-		if (check_order(stack_a) && stack_a->size == 0)
-			return ;
 		push(stack_a, stack_b, 'b');
 		length--;
 	}
 	simple_sort(stack_a, length);
 	i = 0;
-	while (i++ < n - 3)
+	while (stack_b->size > 0)
 		push(stack_b, stack_a, 'a');
 }
 
@@ -100,13 +94,13 @@ void	k_sort1(t_stack *stack_a, t_stack *stack_b, int length)
 	range = ft_sqrt(length) * 14 / 10;
 	while (stack_a->head)
 	{
-		if (stack_a->head->index_stack <= 1)
+		if (stack_a->head->content <= 1)
 		{
 			push(stack_a, stack_b, 'b');
 			rotate(stack_b, 'b');
 			i++;
 		}
-		else if (stack_a->head->index_stack <= i + range)
+		else if (stack_a->head->content <= i + range)
 		{
 			push(stack_a, stack_b, 'b');
 			i++;
@@ -127,14 +121,14 @@ void	k_sort2(t_stack *stack_a, t_stack *stack_b, int length)
 		rrb_count = (length - 3) - rb_count;
 		if (rb_count <= rrb_count)
 		{
-			while (stack_a->head->index_stack != length - 1)
+			while (stack_a->head->content != length - 1)
 				rotate(stack_b, 'b');
 			push(stack_b, stack_a, 'a');
 			length--;
 		}
 		else
 		{
-			while (stack_b->head->index_stack != length - 1)
+			while (stack_b->head->content != length - 1)
 				reverse_rotate(stack_b, 'b');
 			push(stack_b, stack_a, 'a');
 			length--;

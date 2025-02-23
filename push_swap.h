@@ -49,11 +49,11 @@ int					check_duplicate(t_stack *stack, char *argv);
 int					check_order(t_stack *stack);
 void				ft_error(t_stack *stack);
 // utils algorithms
-int					min_index(t_stack *stack);
+int					min_value(t_stack *stack);
 int					count_r(t_node *content, int index);
 void				sort(t_stack *stack_a, t_stack *stack_b);
 int					rot_sort(t_stack *stack, int min_index_stack);
-void				simple_sort(t_stack *stack, int length);
+void				simple_sort(t_stack *stack_a, int length);
 void				insertion_sort(t_stack *stack_a, t_stack *stack_b,
 						int length);
 void				k_sort1(t_stack *stack_a, t_stack *stack_b, int length);
