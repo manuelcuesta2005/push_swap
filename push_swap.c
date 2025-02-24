@@ -17,7 +17,7 @@ int	main(int argc, char **argv)
 	t_stack	stack_b;
 
 	if (argc == 1)
-		return(0);
+		return (0);
 	stack_a.head = NULL;
 	stack_a.size = 0;
 	stack_b.head = NULL;

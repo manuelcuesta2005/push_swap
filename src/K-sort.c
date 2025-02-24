@@ -91,22 +91,26 @@ void	k_sort1(t_stack *stack_a, t_stack *stack_b, int length)
 	int	range;
 
 	i = 0;
-	range = ft_sqrt(length) * 14 / 10;
-	while (stack_a->head)
+	range = ft_sqrt(length) * 12 / 10;
+	while (stack_a->size > 0)
 	{
-		if (stack_a->head->content <= 1)
+		if (stack_a->head && stack_a->head->content <= i)
 		{
 			push(stack_a, stack_b, 'b');
-			rotate(stack_b, 'b');
+			if (stack_b->size > 1 && stack_b->head->content < i / 2)
+				rotate(stack_b, 'b');
 			i++;
 		}
-		else if (stack_a->head->content <= i + range)
+		else if (stack_a->head && stack_a->head->content <= i + range)
 		{
 			push(stack_a, stack_b, 'b');
 			i++;
 		}
 		else
 			rotate(stack_a, 'a');
+		if (stack_a->head && stack_b->size > 0 && stack_a->head->content > i
+			+ range)
+			i++;
 	}
 }
 
@@ -114,22 +118,23 @@ void	k_sort2(t_stack *stack_a, t_stack *stack_b, int length)
 {
 	int	rb_count;
 	int	rrb_count;
+	int	max;
 
-	while (length - 1 >= 0)
+	if (!stack_a || !stack_b || !stack_b->head)
+		return ;
+	while (stack_b->size > 0)
 	{
-		rb_count = count_r(stack_a->head, length - 1);
-		rrb_count = (length - 3) - rb_count;
+		max = max_value(stack_b);
+		rb_count = count_r(stack_b->head, max);
+		rrb_count = stack_b->size - rb_count;
 		if (rb_count <= rrb_count)
-		{
-			while (stack_a->head->content != length - 1)
+			while (stack_b->size > 0 && stack_b->head->content != max)
 				rotate(stack_b, 'b');
-			push(stack_b, stack_a, 'a');
-			length--;
-		}
 		else
-		{
-			while (stack_b->head->content != length - 1)
+			while (stack_b->size > 0 && stack_b->head->content != max)
 				reverse_rotate(stack_b, 'b');
+		if (stack_b->size > 0)
+		{
 			push(stack_b, stack_a, 'a');
 			length--;
 		}

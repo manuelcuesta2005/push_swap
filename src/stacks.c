@@ -11,20 +11,6 @@
 /* ************************************************************************** */
 #include "../push_swap.h"
 
-// void	push_stacks(t_stack *stack, int index, int content)
-// {
-// 	t_node	*tmp;
-
-// 	tmp = (t_node *)malloc(sizeof(t_node));
-// 	if (!tmp)
-// 		return ;
-// 	tmp->content = content;
-// 	tmp->index_stack = index;
-// 	tmp->next = stack->head;
-// 	stack->head = tmp;
-// 	stack->size++;
-// }
-
 void	push_stacks(t_stack *stack, int index, int content)
 {
 	t_node	*tmp;

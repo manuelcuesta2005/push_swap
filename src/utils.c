@@ -74,16 +74,16 @@ int	check_order(t_stack *stack)
 	t_node	*current;
 
 	if (!stack || !stack->head || stack->size == 0)
-		return (0);
+		return (1);
 	current = stack->head;
 	while (current->next)
 	{
 		if (current->content < current->next->content)
 			current = current->next;
 		else
-			return (1);
+			return (0);
 	}
-	return (0);
+	return (1);
 }
 
 void	ft_error(t_stack *stack)
