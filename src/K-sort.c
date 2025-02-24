@@ -119,14 +119,19 @@ void	k_sort2(t_stack *stack_a, t_stack *stack_b, int length)
 	int	rb_count;
 	int	rrb_count;
 	int	max;
+	t_node	*max_ptr;
 
 	if (!stack_a || !stack_b || !stack_b->head)
 		return ;
+	max_ptr = stack_b->head;
 	while (stack_b->size > 0)
 	{
-		max = max_value(stack_b);
+		if (!max_ptr || max_ptr->content < stack_b->head->content)
+			max_ptr = stack_b->head;
+		max = max_ptr->content;
 		rb_count = count_r(stack_b->head, max);
 		rrb_count = stack_b->size - rb_count;
+
 		if (rb_count <= rrb_count)
 			while (stack_b->size > 0 && stack_b->head->content != max)
 				rotate(stack_b, 'b');
@@ -137,6 +142,8 @@ void	k_sort2(t_stack *stack_a, t_stack *stack_b, int length)
 		{
 			push(stack_b, stack_a, 'a');
 			length--;
+			if (max_ptr == stack_b->head)
+				max_ptr = find_max(stack_b);
 		}
 	}
 }

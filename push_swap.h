@@ -50,9 +50,8 @@ int					check_order(t_stack *stack);
 void				ft_error(t_stack *stack);
 // utils algorithms
 int					min_value(t_stack *stack);
-int					max_value(t_stack *stack);
+t_node				*find_max(t_stack *stack);
 int					count_r(t_node *content, int index);
-int					find_smallest(t_stack *stack);
 void				sort(t_stack *stack_a, t_stack *stack_b);
 // algorithm
 int					rot_sort(t_stack *stack, int min_index_stack);
