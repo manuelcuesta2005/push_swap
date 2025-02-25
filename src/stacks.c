@@ -13,26 +13,19 @@
 
 void	push_stacks(t_stack *stack, int index, int content)
 {
-	t_node	*tmp;
-	t_node	*current;
+	t_node	*node;;
 
-	tmp = (t_node *)malloc(sizeof(t_node));
-	if (!tmp)
+	node = (t_node *)malloc(sizeof(t_node));
+	if (!node)
 		return ;
-	tmp->content = content;
-	tmp->index_stack = index;
-	tmp->next = NULL;
-	if (stack->head == NULL)
-	{
-		stack->head = tmp;
-	}
+	node->content = content;
+	node->index_stack = index;
+	node->next = NULL;
+	if (!stack->head)
+		stack->head = node;
 	else
-	{
-		current = stack->head;
-		while (current->next)
-			current = current->next;
-		current->next = tmp;
-	}
+		stack->tail->next = node;
+	stack->tail = node;
 	stack->size++;
 }
 
@@ -46,6 +39,10 @@ int	pop_stacks(t_stack *stack)
 	top = stack->head;
 	content = top->content;
 	stack->head = top->next;
+	if (stack->head)
+		stack->head->prev = NULL;
+	else
+		stack->tail = NULL;
 	free(top);
 	stack->size--;
 	return (content);

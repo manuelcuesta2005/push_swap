@@ -11,16 +11,17 @@
 /* ************************************************************************** */
 #include "../push_swap.h"
 
-int	rot_sort(t_stack *stack, int min_index_stack)
+int rot_sort(t_stack *stack, int min_index_stack)
 {
-	int	a;
-	int	b;
-	int	c;
+	int a;
+	int b;
+	int c;
 
 	(void)min_index_stack;
-	a = stack->head->content;
-	b = stack->head->next->content;
-	c = stack->head->next->next->content;
+	a = stack->head->index_stack;
+	b = stack->head->next->index_stack;
+	c = stack->head->next->next->index_stack;
+
 	if (a < b && b < c)
 		return (1);
 	if (b < c && a > c)
@@ -30,16 +31,16 @@ int	rot_sort(t_stack *stack, int min_index_stack)
 	return (0);
 }
 
-void	simple_sort(t_stack *stack_a, int length)
+void simple_sort(t_stack *stack_a, int length)
 {
-	int	min_value_stack;
-	int	r;
+	int min_index_stack;
+	int r;
 
 	if (check_order(stack_a))
-		return ;
-	min_value_stack = min_value(stack_a);
-	r = count_r(stack_a->head, min_value_stack);
-	if (rot_sort(stack_a, min_value_stack))
+		return;
+	min_index_stack = min_value(stack_a);
+	r = count_r(stack_a->head, min_index_stack);
+	if (rot_sort(stack_a, min_index_stack))
 	{
 		if (r < length - r)
 			rotate(stack_a, 'a');
@@ -50,7 +51,7 @@ void	simple_sort(t_stack *stack_a, int length)
 	{
 		swap(stack_a, 'a');
 		if (check_order(stack_a))
-			return ;
+			return;
 		if (r < length - r)
 			rotate(stack_a, 'a');
 		else
@@ -58,19 +59,18 @@ void	simple_sort(t_stack *stack_a, int length)
 	}
 }
 
-void	insertion_sort(t_stack *stack_a, t_stack *stack_b, int length)
+void insertion_sort(t_stack *stack_a, t_stack *stack_b, int length)
 {
-	int	minimun_value;
-	int	i;
-	int	n;
+	int minimun_value;
+	int i;
+	int n;
 
 	i = 0;
 	n = length;
 	while (i < n - 3 && stack_a->size > 1)
 	{
 		minimun_value = min_value(stack_a);
-		if (count_r(stack_a->head, minimun_value) <= n - minimun_value
-			- count_r(stack_a->head, minimun_value))
+		if (count_r(stack_a->head, minimun_value) <= n - minimun_value - count_r(stack_a->head, minimun_value))
 			while (stack_a->head->content != minimun_value)
 				rotate(stack_a, 'a');
 		else
@@ -85,10 +85,10 @@ void	insertion_sort(t_stack *stack_a, t_stack *stack_b, int length)
 		push(stack_b, stack_a, 'a');
 }
 
-void	k_sort1(t_stack *stack_a, t_stack *stack_b, int length)
+void k_sort1(t_stack *stack_a, t_stack *stack_b, int length)
 {
-	int	i;
-	int	range;
+	int i;
+	int range;
 
 	i = 0;
 	range = ft_sqrt(length) * 12 / 10;
@@ -108,21 +108,20 @@ void	k_sort1(t_stack *stack_a, t_stack *stack_b, int length)
 		}
 		else
 			rotate(stack_a, 'a');
-		if (stack_a->head && stack_b->size > 0 && stack_a->head->content > i
-			+ range)
+		if (stack_a->head && stack_b->size > 0 && stack_a->head->content > i + range)
 			i++;
 	}
 }
 
-void	k_sort2(t_stack *stack_a, t_stack *stack_b, int length)
+void k_sort2(t_stack *stack_a, t_stack *stack_b, int length)
 {
-	int	rb_count;
-	int	rrb_count;
-	int	max;
-	t_node	*max_ptr;
+	int rb_count;
+	int rrb_count;
+	int max;
+	t_node *max_ptr;
 
 	if (!stack_a || !stack_b || !stack_b->head)
-		return ;
+		return;
 	max_ptr = stack_b->head;
 	while (stack_b->size > 0)
 	{
