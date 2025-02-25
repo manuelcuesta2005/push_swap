@@ -21,11 +21,13 @@ typedef struct s_node
 	int				content;
 	int				index_stack;
 	struct s_node	*next;
+	struct s_node	*prev;
 }					t_node;
 
 typedef struct s_stack
 {
 	t_node			*head;
+	t_node			*tail;
 	int				size;
 }					t_stack;
 
