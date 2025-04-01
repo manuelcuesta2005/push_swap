@@ -49,6 +49,9 @@ char				*ft_strtrim(char const *s1, char const *set);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
+long				ft_atol(const char *str);
+int					ft_sqrt(int number);
+int					ft_index(int n, int *array);
 typedef struct s_list
 {
 	void			*content;

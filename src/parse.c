@@ -50,20 +50,21 @@ void	get_numbers_by_string(t_stack *stack, char *string, int *index)
 	char	**split_result;
 
 	i = 0;
-	if (!stack || !string || !(*string))
-		return ;
 	split_result = ft_split(string, ' ');
 	if (!split_result)
 		return ;
 	while (split_result[i])
 	{
 		if (!is_valid_number(split_result[i]))
-			return (free_split(split_result), ft_error(stack));
+			return (free_split(split_result), free_stack(stack),
+				ft_error("Error\n"));
 		num = ft_atol(split_result[i]);
 		if (num > 2147483647 || num < -2147483648)
-			return (free_split(split_result), ft_error(stack));
+			return (free_split(split_result), free_stack(stack),
+				ft_error("Error\n"));
 		if (check_duplicate(stack, split_result[i]))
-			return (free_split(split_result), ft_error(stack));
+			return (free_split(split_result), free_stack(stack),
+				ft_error("Error\n"));
 		push_stacks(stack, (*index)++, (int)num);
 		i++;
 	}
@@ -77,12 +78,12 @@ void	get_numbers_by_arguments(t_stack *stack, char *argv, int *index)
 	if (!argv || !stack)
 		return ;
 	if (!is_valid_number(argv))
-		return (ft_error(stack));
+		return (ft_error("Error\n"), free_stack(stack));
 	num = ft_atol(argv);
 	if (num > 2147483647 || num < -2147483648)
-		return (ft_error(stack));
+		return (ft_error("Error\n"), free_stack(stack));
 	if (check_duplicate(stack, argv))
-		return (ft_error(stack));
+		return (ft_error("Error\n"), free_stack(stack));
 	push_stacks(stack, (*index)++, (int)num);
 }
 
@@ -104,7 +105,7 @@ void	get_all_numbers(t_stack *stack, char **argv)
 		if (stack->size == 0)
 		{
 			free_stack(stack);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		i++;
 	}

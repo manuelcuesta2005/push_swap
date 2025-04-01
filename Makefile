@@ -10,7 +10,7 @@ PRINTF_DIR = ft_printf
 LIBFT = $(LIBFT_DIR)/libft.a
 PRINTF = $(PRINTF_DIR)/libftprintf.a
 
-SRC = push_swap.c src/operations_move.c src/stacks.c src/parse.c src/utils.c src/utils_algorithms.c src/K-sort.c
+SRC = push_swap.c src/operations_move.c src/stacks.c src/parse.c src/utils.c src/utils_algorithms.c src/k_sort.c
 SRC_OBJS = $(SRC:.c=.o)
 
 all: $(NAME)

@@ -42,10 +42,12 @@ int	ft_putnbr(int n)
 
 int	ft_putdouble(int number)
 {
+	int		i;
 	int		count;
 	int		int_part;
 
 	count = 0;
+	i = 0;
 	if (number < 0)
 	{
 		count += ft_putchar('-');

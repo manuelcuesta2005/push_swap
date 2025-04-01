@@ -11,32 +11,32 @@
 /* ************************************************************************** */
 #include "../push_swap.h"
 
-int	min_value(t_stack *stack)
+int	min_index(t_stack *stack)
 {
 	t_node	*index;
-	int		min_value;
+	int		min_index;
 
 	if (!stack || !stack->head)
 		return (0);
 	index = stack->head;
-	min_value = index->content;
+	min_index = index->index_stack;
 	while (index->next)
 	{
-		if (index->content < min_value)
-			min_value = index->content;
 		index = index->next;
+		if (index->index_stack < min_index)
+			min_index = index->index_stack;
 	}
-	return (min_value);
+	return (min_index);
 }
 
-int	count_r(t_node *content, int value)
+int	count_r(t_node *content, int index)
 {
 	int	i;
 
 	i = 0;
 	if (!content)
 		return (EXIT_FAILURE);
-	while (content && content->content != value)
+	while (content && content->index_stack != index)
 	{
 		content = content->next;
 		i++;
@@ -44,29 +44,36 @@ int	count_r(t_node *content, int value)
 	return (i);
 }
 
-t_node	*find_max(t_stack *stack)
+void	insertion(int array[], int n)
 {
-	t_node	*max_ptr;
-	t_node	*current;
+	int	i;
+	int	j;
+	int	element;
 
-	max_ptr = stack->head;
-	current = stack->head;
-	while (current)
+	i = 1;
+	while (i < n)
 	{
-		if (current->content > max_ptr->content)
-			max_ptr = current;
-		current = current->next;
+		element = array[i];
+		j = i - 1;
+		while (j >= 0 && array[j] > element)
+		{
+			array[j + 1] = array[j];
+			j = j - 1;
+		}
+		array[j + 1] = element;
+		i++;
 	}
-	return (max_ptr);
 }
 
-void	sort(t_stack *stack_a, t_stack *stack_b)
+void	sort(t_stack *stack_a, t_stack *stack_b, int *array, int length)
 {
-	int length;
-
 	length = stack_a->size;
 	if (check_order(stack_a))
-		ft_error(stack_a);
+	{
+		free(array);
+		free_stack(stack_a);
+		ft_error("");
+	}
 	else if (length == 2)
 		swap(stack_a, 'a');
 	else if (length == 3)
@@ -79,5 +86,5 @@ void	sort(t_stack *stack_a, t_stack *stack_b)
 		k_sort2(stack_a, stack_b, length);
 	}
 	else
-		ft_error(stack_a);
+		ft_error("Error\n");
 }

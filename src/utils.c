@@ -11,46 +11,6 @@
 /* ************************************************************************** */
 #include "../push_swap.h"
 
-long	ft_atol(const char *str)
-{
-	long	num;
-	int		sign;
-	int		i;
-
-	num = 0;
-	sign = 1;
-	i = 0;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
-	while (str[i])
-	{
-		num = num * 10 + (str[i] - '0');
-		i++;
-	}
-	return (num * sign);
-}
-
-int	ft_sqrt(int number)
-{
-	int	i;
-
-	if (number < 4)
-		return (1);
-	i = 2;
-	while (i * i < number)
-		i++;
-	if (i * i > number)
-	{
-		if ((i * i - number) < ((i - 1) * (i - 1) + (-number)))
-			return (i);
-	}
-	return (i - 1);
-}
-
 int	check_duplicate(t_stack *stack, char *argv)
 {
 	t_node	*size_list;
@@ -86,9 +46,37 @@ int	check_order(t_stack *stack)
 	return (1);
 }
 
-void	ft_error(t_stack *stack)
+int	count_numbers(int argc, char **argv)
 {
-	free_stack(stack);
-	ft_printf("Error\n");
+	int		i;
+	int		count;
+	char	**split_result;
+	int		j;
+
+	count = 0;
+	i = 1;
+	while (i < argc)
+	{
+		split_result = ft_split(argv[i], ' ');
+		if (!split_result)
+			ft_error("Error\n");
+		j = 0;
+		while (split_result[j])
+		{
+			if (is_valid_number(split_result[j]))
+				count++;
+			else
+				return (free_split(split_result), ft_error("Error\n"), 0);
+			j++;
+		}
+		free_split(split_result);
+		i++;
+	}
+	return (count);
+}
+
+void	ft_error(char *string)
+{
+	ft_printf("%s", string);
 	exit(EXIT_FAILURE);
 }

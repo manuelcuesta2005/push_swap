@@ -13,7 +13,7 @@
 
 void	push_stacks(t_stack *stack, int index, int content)
 {
-	t_node	*node;;
+	t_node	*node;
 
 	node = (t_node *)malloc(sizeof(t_node));
 	if (!node)
@@ -21,6 +21,7 @@ void	push_stacks(t_stack *stack, int index, int content)
 	node->content = content;
 	node->index_stack = index;
 	node->next = NULL;
+	node->prev = stack->tail;
 	if (!stack->head)
 		stack->head = node;
 	else
@@ -58,6 +59,7 @@ void	free_stack(t_stack *stack)
 		stack->head = stack->head->next;
 		free(temp);
 	}
+	stack->head = NULL;
+	stack->tail = NULL;
+	stack->size = 0;
 }
-
-
